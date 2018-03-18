@@ -1,6 +1,6 @@
 ## Composing Go Example
 
-* Example program demonstrating interface segregation in go.
+* Making HTTP Client more Resilient in Go example
 
 ## Tests
 ```bash

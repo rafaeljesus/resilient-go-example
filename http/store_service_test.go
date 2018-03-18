@@ -13,8 +13,19 @@ import (
 
 func TestUserStore(t *testing.T) {
 	client := new(mock.HTTPClientMock)
+	client.GetFunc = func(url string) (*http.Response, error) {
+		if url != usersAPIV2+"/foo@mail.com/de" {
+			t.Fatal("unexpected url")
+		}
+		return &http.Response{
+			StatusCode: http.StatusOK,
+			Body: nopCloser{
+				bytes.NewBufferString(`{"email": "foo@mail.com", "country": "de"}`),
+			},
+		}, nil
+	}
 	client.PostFunc = func(url, contentType string, body io.Reader) (*http.Response, error) {
-		if url != usersAPIV1+"foo@mail.com/de" {
+		if url != usersAPIV2 {
 			t.Fatal("unexpected url")
 		}
 		if contentType != "application/json" {
@@ -31,17 +42,6 @@ func TestUserStore(t *testing.T) {
 			t.Fatal("unexpected email")
 		}
 		return &http.Response{StatusCode: http.StatusOK}, nil
-	}
-	client.GetFunc = func(url string) (*http.Response, error) {
-		if url != usersAPIV1+"foo@mail.com/de" {
-			t.Fatal("unexpected url")
-		}
-		return &http.Response{
-			StatusCode: http.StatusOK,
-			Body: nopCloser{
-				bytes.NewBufferString(`{"email": "foo@mail.com", "country": "de"}`),
-			},
-		}, nil
 	}
 	storer := NewStoreService(client)
 	u := srv.NewUser("foo@mail.com", "de")
