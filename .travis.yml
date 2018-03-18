@@ -12,4 +12,5 @@ install:
   - mkdir -p $GOPATH/bin
 
 script:
+  - make deps
   - make test
