@@ -27,7 +27,7 @@ func NewStoreService(hc srv.HTTPClient) *StoreService {
 	return &StoreService{hc}
 }
 
-// StoreService responsible for storing the user.
+// Store responsible for storing the user.
 func (s *StoreService) Store(user *srv.User) error {
 	userResourceV2 := fmt.Sprintf("%s/%s/%s", usersAPIV2, user.Email, user.Country)
 	res, err := s.client.Get(userResourceV2)
