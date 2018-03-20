@@ -1,9 +1,9 @@
-## Composing Go Example
+## Resilient Go Example
 
 * Making HTTP Client more Resilient in Go example
 
 ## Tests
-```bash
+```
 make test
 ```
 
